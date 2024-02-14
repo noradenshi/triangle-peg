@@ -14,9 +14,16 @@ int main() {
 
     SetTargetFPS(50);
     while (!WindowShouldClose()) {
+        switch (GetKeyPressed()) {
+        case KEY_R:
+            killPegs();
+            initPegs();
+            break;
+        }
+
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawTexture(backgroundTexture, 0, 0, WHITE);
+        DrawTexture(backgroundTexture, -backgroundTexture.width / 4, 0, WHITE);
         drawPegs();
         EndDrawing();
     }

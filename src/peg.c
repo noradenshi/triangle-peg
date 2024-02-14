@@ -1,12 +1,11 @@
 #include "peg.h"
-#include "utils.h"
 #include <raylib.h>
 #include <stdint.h>
 #include <stdlib.h>
 
 const int pegLines = 5;
 const int pegSize = 15;
-const Vector2 pegStart = {400, 200};
+const Vector2 pegStart = {400, 250};
 const int pegSpacing = 80;
 const int pegRadius = 30;
 int pegSelectedId = -1;
@@ -45,7 +44,7 @@ void initPegs() {
             pegs[id].color =
                 (Color){100 + id * 10, 200 - col * 10, 180 - row * 10, 255};
             pegs[id].position =
-                (Vector2){pegStart.x + (col - (row + 1.f) / 2) * pegSpacing,
+                (Vector2){pegStart.x + (col - row / 2.f) * pegSpacing,
                           pegStart.y + pegSpacing * row};
             pegs[id].row = row;
             pegs[id].col = col;
@@ -77,7 +76,12 @@ void pegCheckForMousePress(int id) {
 
         const int row_diff = pegs[pegSelectedId].row - pegs[id].row;
         const int col_diff = pegs[pegSelectedId].col - pegs[id].col;
-        if (abs(row_diff) == 2 || abs(col_diff) == 2) {
+        const int abs_row_diff = abs(row_diff);
+        const int abs_col_diff = abs(col_diff);
+
+        if ((abs_row_diff == 0 && abs_col_diff == 2) ||
+            (abs_row_diff == 2 && abs_col_diff == 0) ||
+            (abs_row_diff == 2 && abs_col_diff == 2)) {
             const int midId = pegFindId(pegs[id].row + row_diff / 2,
                                         pegs[id].col + col_diff / 2);
             if (pegs[midId].isOccupied) {
@@ -116,14 +120,5 @@ void drawPegs() {
         if (pegSelectedId == i)
             DrawCircleV(pegs[i].position, pegRadius + 2, triangleAccentColor);
         DrawCircleV(pegs[i].position, pegRadius, pegGetActionColor(pegs[i]));
-
-        //        char str[4] = "0";
-        //        strnumber(str, i);
-        //        DrawText(str, pegs[i].position.x, pegs[i].position.y,
-        //        pegRadius, WHITE);
     }
-
-    char selStr[] = "selected:   ";
-    strnumber(&selStr[10], pegSelectedId);
-    DrawText(selStr, 0, 0, 20, WHITE);
 }

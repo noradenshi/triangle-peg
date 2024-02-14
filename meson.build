@@ -17,5 +17,4 @@ sources = files(
 
 executable('exe', sources,
   include_directories: ['include'],
-  dependencies: deps,
-  install: true)
+  dependencies: deps)
