@@ -1,3 +1,7 @@
+subprojects/packagecache/
+subprojects/raylib-*/
+.cache/
+
 # Prerequisites
 *.d
 
