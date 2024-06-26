@@ -1,8 +1,7 @@
-#include <raylib.h>
 #include <stdbool.h>
 #include <string.h>
 
-void strrev(char *str) {
+void nora_strrev(char *str) {
     const int length = strlen(str);
     char t;
     for (int i = 0; i < length / 2; i++) {
@@ -31,5 +30,5 @@ void strnumber(char *str, int n) {
         i++;
     }
     str[i] = 0;
-    strrev(str);
+    nora_strrev(str);
 }

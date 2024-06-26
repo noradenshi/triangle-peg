@@ -13,6 +13,9 @@ int pegSelectedId = -1;
 const Color triangleMainColor = {0x88, 0x6c, 0x52, 255};
 const Color triangleAccentColor = {0x45, 0x3c, 0x39, 255};
 
+Sound pegSelectSound;
+Sound pegMoveSound;
+
 struct Peg {
     bool isOccupied;
     Color color;
@@ -34,6 +37,9 @@ int pegFindId(const int row, const int col) {
 }
 
 void initPegs() {
+    pegSelectSound = LoadSound("resources/flap.wav");
+    pegMoveSound = LoadSound("resources/mute.wav");
+
     pegs = malloc(sizeof(struct Peg) * pegSize);
 
     int id;
@@ -54,7 +60,10 @@ void initPegs() {
     pegs[0].isOccupied = false;
 }
 
-void killPegs() { free(pegs); }
+void killPegs() {
+    free(pegs);
+    UnloadSound(pegSelectSound);
+}
 
 Color pegGetActionColor(struct Peg peg) {
     if (!peg.isOccupied)
@@ -68,6 +77,7 @@ Color pegGetActionColor(struct Peg peg) {
 void pegCheckForMousePress(int id) {
     if (IsMouseButtonPressed(0)) {
         if (pegs[id].isOccupied) {
+            PlaySound(pegSelectSound);
             pegSelectedId = id;
             return;
         }
@@ -91,6 +101,7 @@ void pegCheckForMousePress(int id) {
                 pegs[id].color = pegs[pegSelectedId].color;
                 pegSelectedId = -1;
             }
+            PlaySound(pegMoveSound);
         }
     }
 }

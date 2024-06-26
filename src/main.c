@@ -8,6 +8,7 @@ int main() {
     SetTraceLogLevel(LOG_NONE);
     InitWindow(width, height, "triangle peg");
     SetTraceLogLevel(LOG_DEBUG);
+    InitAudioDevice();
 
     Texture backgroundTexture = LoadTexture("resources/bg.png");
     initPegs();
@@ -30,6 +31,7 @@ int main() {
 
     UnloadTexture(backgroundTexture);
     killPegs();
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }

@@ -1,13 +1,15 @@
 project('triangle-peg', 'c',
   default_options: [
-    'prefix=/home/noradenshi/Projects/triangle-peg',
     'c_std=c2x'
   ]
 )
 
-cc = meson.get_compiler('c')
+# if (host_machine.system() == 'windows')
+#   add_project_link_arguments('-lgdi32', '-lwinmm', language: 'c')
+# endif
 
-deps = [ cc.find_library('raylib') ]
+root = meson.current_source_dir()
+raylib = dependency('raylib')
 
 sources = files(
   'src/main.c',
@@ -17,4 +19,6 @@ sources = files(
 
 executable('exe', sources,
   include_directories: ['include'],
-  dependencies: deps)
+  install_dir: root + '/bin',
+  dependencies: raylib,
+  install: true)
